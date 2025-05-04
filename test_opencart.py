@@ -8,13 +8,10 @@ def test_main_page(browser):
     header_links = WebDriverWait(browser, 2).until(EC.visibility_of_element_located((By.ID, "top-links")))
     elements = header_links.find_elements(By.TAG_NAME, 'li')
     assert len(elements) == 7
-    # Check logo name
     logo = WebDriverWait(browser, 2).until(EC.visibility_of_element_located((By.ID, "logo")))
     assert logo.text == "Your Store"
-    # Check search field is empty
     search = WebDriverWait(browser, 2).until(EC.visibility_of_element_located((By.NAME, "search")))
     assert search.get_attribute("placeholder") == "Search"
-    # Check categories in menu
     menu = WebDriverWait(browser, 2).until(EC.visibility_of_element_located((By.ID, "menu")))
     assert "Software" in menu.text
     footer_rights = WebDriverWait(browser, 2).until(
@@ -24,15 +21,12 @@ def test_main_page(browser):
 
 def test_catalog_page(browser):
     browser.get(browser.url + "index.php?route=product/category&path=18")
-    # Check category name
     name_ctgr = WebDriverWait(browser, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content > h2")))
     assert "Laptops & Notebooks" == name_ctgr.text
-    # Check amount of products cards on page
     content = WebDriverWait(browser, 2).until(EC.visibility_of_element_located(
         (By.CSS_SELECTOR, "#content > div:nth-child(7)")))
     elements = content.find_elements(By.CLASS_NAME, 'product-layout')
     assert len(elements) == 5
-    # Check default sort filter
     sort_filter = browser.find_element(By.CSS_SELECTOR, "#input-sort > option[selected]")
     assert "Default" == sort_filter.text
     add_to_cart_btn = WebDriverWait(browser, 2).until(EC.visibility_of_element_located(
